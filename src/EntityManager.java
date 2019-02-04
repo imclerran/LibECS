@@ -4,13 +4,11 @@ public class EntityManager {
     private int nextId;
     private HashMap<int, IEntity> entities;
     private HashMap<String, ArrayList<IEntity>> entityPools;
-    private ComponentManager cm;
 
     private EntityManager() {
         nextId = 0;
         entities = new HashMap<Integer, IEntity>();
         entityPools = new HashMap<String, ArrayList<IEntity>>();
-        cm = ComponentManager.getInstance();
     }
 
     /**
@@ -23,7 +21,7 @@ public class EntityManager {
         return em;
     }
 
-    public List<IEntity> getEntityPool(String type) {
+    public List<IEntity> getEntities(String type) {
         return entityPools.get(type);
     }
 
@@ -32,22 +30,22 @@ public class EntityManager {
     }
 
     public int addEntity(IEntity e) {
-        if(entityPools.containsKey(e.type)) {
-            entities.put(e.id, e);
-            entityPools.get(type).add(e);
+        if(entityPools.containsKey(e.getType())) {
+            entities.put(e.getId(), e);
+            entityPools.get(e.getType()).add(e);
         }
         else {
-            entities.put(e.id, e);
-            entityPools.put(e.type, new ArrayList<IEntity>());
-            entityPools.get(type).add(e);
+            entities.put(e.getId(), e);
+            entityPools.put(e.getType(), new ArrayList<IEntity>());
+            entityPools.get(e.getType()).add(e);
         }
         return id;
     }
 
     public boolean removeEntity(IEntity e) {
-        if(entities.containsKey(e.id)) {
-            entityPools.get(e.type).remove(e);
-            entities.remove(e.id);
+        if(entities.containsKey(e.getId())) {
+            entityPools.get(e.getType().remove(e);
+            entities.remove(e.getId());
             return true;
         }
         return false;
