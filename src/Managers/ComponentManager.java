@@ -1,6 +1,6 @@
 public class ComponentManager {
 
-    private static ComponentManager cm;
+    private static ComponentManager _cm;
     private HashMap<Integer, List<IComponent>> _components;
     private HashMap<String, List<IComponent>> _componentPools;
 
@@ -13,10 +13,10 @@ public class ComponentManager {
      * singleton getter
      */
     public static ComponentManager getInstance() {
-        if(null == cm) {
-            cm = new ComponentManager();
+        if(null == _cm) {
+            _cm = new ComponentManager();
         }
-        return cm;
+        return _cm;
     }
 
     public List<IComponent> getComponents(int id) {
