@@ -1,5 +1,11 @@
 public interface IEventListener {
-    private int _entityId;
+    private Integer _listenToId;
     private String _eventType;
-    private void handleEvent(HashMap<String, String> args);
+    private void _eventHanlder(HashMap<String, String> args);
+
+    public int getId() {}
+    public String getType() {}
+    public boolean canHandle(Integer id, String type) {}
+    public void handleEvent(HashMap<String, String> args) {
+    }
 }

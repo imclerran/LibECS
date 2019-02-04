@@ -1,6 +1,7 @@
 public class SystemManager {
-
     private static SystemManager _sm;
+
+    private EventManager _evm;
     private HashMap<Integer, List<ISystem>> _systems;
     private HashMap<String, List<ISystem>> _systemPools;
 
