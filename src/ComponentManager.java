@@ -1,8 +1,15 @@
+package LibECS;
+
+import LibECS.Interfaces.IComponent;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class ComponentManager {
 
     private static ComponentManager _cm;
-    private HashMap<Integer, List<IComponent>> _components;
-    private HashMap<String, List<IComponent>> _componentPools;
+    private HashMap<Integer, ArrayList<IComponent>> _components;
+    private HashMap<String, ArrayList<IComponent>> _componentPools;
 
     /**
      * A private constructor for the singleton pattern.
@@ -43,7 +50,7 @@ public class ComponentManager {
      * @param type  the type of component to be retrieved.
      * @return  a list of the matching components.
      */
-    public int addComponent(IComponent c) {
+    public IComponent addComponent(IComponent c) {
         int id = c.getId();
         String type = c.getType();
 
@@ -76,8 +83,7 @@ public class ComponentManager {
             return false;
         }
         for (IComponent c : flaggedForRemoval) {
-            cp = _componentPools.get(c.getType());
-            cp.remove(c);
+            _componentPools.get(c.getType()).remove(c);
         }
         return true;
     }
@@ -90,7 +96,7 @@ public class ComponentManager {
      */
     public boolean removeComponent(IComponent c) {
         if(_components.containsKey(c.getId())) {
-            _components.get(c.getId().remove(c);
+            _components.get(c.getId()).remove(c);
         }
         if(_componentPools.containsKey(c.getType())) {
             return _componentPools.get(c.getType()).remove(c);

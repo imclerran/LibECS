@@ -1,17 +1,24 @@
+package LibECS;
+
+import LibECS.Interfaces.ISystem;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class SystemManager {
     private static SystemManager _sm;
 
     private EventManager _evm;
-    private HashMap<Integer, List<ISystem>> _systems;
-    private HashMap<String, List<ISystem>> _systemPools;
+    private HashMap<Integer, ArrayList<ISystem>> _systems;
+    private HashMap<String, ArrayList<ISystem>> _systemPools;
 
     /**
      * A private constructor for the singleton pattern.
      */
     private SystemManager() {
         _evm = EventManager.getInstance();
-        _systems = new HashMap<Integer, List<ISystem>>();
-        _systemPools = new HashMap<String, List<ISystem>>();
+        _systems = new HashMap<Integer, ArrayList<ISystem>>();
+        _systemPools = new HashMap<String, ArrayList<ISystem>>();
     }
 
     /**
@@ -19,9 +26,9 @@ public class SystemManager {
      *
      * @return  the singleton SystemManager.
      */
-    public static ComponentManager getInstance() {
+    public static SystemManager getInstance() {
         if(null == _sm) {
-            _sm = new ComponentManager();
+            _sm = new SystemManager();
         }
         return _sm;
     }
@@ -39,7 +46,7 @@ public class SystemManager {
     /**
      * Get all systems with a matching system type.
      *
-     * @param id  the system type to match.
+     * @param type the system type to match.
      * @return  a list of matching systems.
      */
     public ArrayList<ISystem> getSystems(String type) {
@@ -86,8 +93,7 @@ public class SystemManager {
             return false;
         }
         for (ISystem s : flaggedForRemoval) {
-            sp = _systemPools.get(s.getType());
-            sp.remove(c);
+            _systemPools.get(s.getType()).remove(s);
         }
         return true;
     }
@@ -100,7 +106,7 @@ public class SystemManager {
      */
     public boolean removeSystem(ISystem s) {
         if(_systems.containsKey(s.getId())) {
-            _systems.get(s.getId().remove(s);
+            _systems.get(s.getId()).remove(s);
         }
         if(_systemPools.containsKey(s.getType())) {
             return _systemPools.get(s.getType()).remove(s);

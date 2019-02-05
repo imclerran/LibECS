@@ -1,3 +1,10 @@
+package LibECS;
+
+import LibECS.Interfaces.IEntity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class EntityManager {
     private static EntityManager em;
 
@@ -71,12 +78,13 @@ public class EntityManager {
      * @return  true if the entities were removed.
      */
     public boolean removeEntities(String type) {
-        flaggedForRemoval = entityPools.remove(type);
+        ArrayList<IEntity> flaggedForRemoval = entityPools.remove(type);
         if(null != flaggedForRemoval) {
             for (IEntity e : flaggedForRemoval) {
                 entities.remove(e.getId());
             }
         }
+        return flaggedForRemoval.size() > 0;
     }
 
     /**
@@ -88,7 +96,7 @@ public class EntityManager {
     public boolean removeEntity(int id) {
         if(entities.containsKey(id)) {
             IEntity e = entities.remove(id);
-            entityPools.get(e.getType().remove(e));
+            entityPools.get(e.getType()).remove(e);
             return true;
         }
         return false;
@@ -102,7 +110,7 @@ public class EntityManager {
      */
     public boolean removeEntity(IEntity e) {
         if(entities.containsKey(e.getId())) {
-            entityPools.get(e.getType().remove(e);
+            entityPools.get(e.getType()).remove(e);
             entities.remove(e.getId());
             return true;
         }

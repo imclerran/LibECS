@@ -1,13 +1,15 @@
+package LibECS.Interfaces;
+
 /**
  * The interface to be implemented by all concrete Systems.
  * <p>
  * Systems are used to store handle the logic and behavior of entities.
  */
 public interface ISystem {
-    private int _entityId;
-    private String _systemType;
+    int _entityId = 0;
+    String _systemType = null;
 
-    public getId() {}
-    public getType() {}
-    public update() {}
+    int getId();
+    String getType();
+    void update();
 }

@@ -1,5 +1,13 @@
+package LibECS;
+
+import LibECS.Interfaces.IEvent;
+import LibECS.Interfaces.IEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class EventManager {
-    private EventManager _evm;
+    private static EventManager _evm;
 
     private ArrayList<IEvent> _events;
     private HashMap<Integer, ArrayList<IEventListener>> _idEventListeners;
@@ -19,7 +27,7 @@ public class EventManager {
      *
      * @return  the singleton EventManager.
      */
-    public EventManager getInstance() {
+    public static EventManager getInstance() {
         if(null == _evm) {
             _evm = new EventManager();
         }
@@ -34,6 +42,7 @@ public class EventManager {
      */
     public IEvent addAddEvent(IEvent e) {
         _events.add(e);
+        return e;
     }
 
     /**
@@ -63,6 +72,7 @@ public class EventManager {
                 _idEventListeners.get(type).add(el);
             }
         }
+        return el;
     }
 
     /**
@@ -70,7 +80,7 @@ public class EventManager {
      * then clears the events list.
      */
     public void dispatchEvents() {
-        for (IEvent e : _events.entrySet()) {
+        for (IEvent e : _events) {
             Integer id = e.getId();
             String type = e.getType();
 
@@ -78,7 +88,7 @@ public class EventManager {
                 ArrayList<IEventListener> elList = _idEventListeners.get(id);
                 for (IEventListener el : elList) {
                     if(el.canHandle(id, type)) {
-                        e.handleEvent(e.getArgs());
+                        el.handleEvent(e.getArgs());
                     }
                 }
             }
@@ -86,7 +96,7 @@ public class EventManager {
                 ArrayList<IEventListener> elList = _typeEventListeners.get(type);
                 for (IEventListener el : elList) {
                     if(el.canHandle(id, type)) {
-                        e.handleEvent(e.getArgs());
+                        el.handleEvent(e.getArgs());
                     }
                 }
             }
@@ -98,9 +108,10 @@ public class EventManager {
      * Remove all event listeners with a matching id.
      *
      * @param id  the entity id to be matched for listener removal.
+     * @return  true if at least one event listener was removed.
      */
-    removeEventListeners(int id) {
-        ArrayList<IEvent> flaggedForRemoval;
+    public boolean removeEventListeners(int id) {
+        ArrayList<IEvent> flaggedForRemoval = new ArrayList<IEvent>();
         for (IEvent e : _events) {
             if(e.getId() == id) {
                 flaggedForRemoval.add(e);
@@ -109,15 +120,17 @@ public class EventManager {
         for (IEvent e : flaggedForRemoval) {
             _events.remove(e);
         }
+        return flaggedForRemoval.size() > 0;
     }
 
     /**
      * Remove all event listeners with a matching type.
      *
      * @param type  the event type to be matched for listener removal.
+     * @return  true if at least one event listener was removed.
      */
-    removeEventListeners(String type) {
-        ArrayList<IEvent> flaggedForRemoval;
+    public boolean removeEventListeners(String type) {
+        ArrayList<IEvent> flaggedForRemoval = new ArrayList<IEvent>();
         for (IEvent e : _events) {
             if(e.getType() == type) {
                 flaggedForRemoval.add(e);
@@ -126,6 +139,7 @@ public class EventManager {
         for (IEvent e : flaggedForRemoval) {
             _events.remove(e);
         }
+        return flaggedForRemoval.size() > 0;
     }
 
     /**
@@ -133,9 +147,10 @@ public class EventManager {
      *
      * @param id  the entity id to be matched for listener removal.
      * @param type  the event type to be matched for listener removal.
+     * @return  true if at least one event listener was removed.
      */
-    removeEventListener(int id, String type) {
-        ArrayList<IEvent> flaggedForRemoval;
+    public boolean removeEventListener(int id, String type) {
+        ArrayList<IEvent> flaggedForRemoval = new ArrayList<IEvent>();
         for (IEvent e : _events) {
             if(e.getId() == id && e.getType() == type) {
                 flaggedForRemoval.add(e);
@@ -144,5 +159,6 @@ public class EventManager {
         for (IEvent e : flaggedForRemoval) {
             _events.remove(e);
         }
+        return flaggedForRemoval.size() > 0;
     }
 }

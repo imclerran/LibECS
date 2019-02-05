@@ -1,3 +1,9 @@
+package LibECS;
+
+import LibECS.Interfaces.ISystem;
+
+import java.util.ArrayList;
+
 public class ECSEngine {
     private ComponentManager _cm;
     private EntityManager _em;
@@ -31,7 +37,7 @@ public class ECSEngine {
      * Getter and setter for _orderedSystemTypes list.
      */
     public ArrayList<String> getOrderedSystemTypes() { return _orderedSystemTypes; }
-    public setOrderedSystemTypes(ArrayList<String> types) { _orderedSystemTypes = types; }
+    public void setOrderedSystemTypes(ArrayList<String> types) { _orderedSystemTypes = types; }
 
     /**
      * Called each tick. This calls the update method for each syst_em in the order defined,
