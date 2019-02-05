@@ -1,3 +1,8 @@
+/**
+ * The interface to be implemented by all concrete EventListeners.
+ * <p>
+ * EventListeners contain a callback to be processed when triggered by an event.
+ */
 public interface IEventListener {
     private Integer _listenToId;
     private String _eventType;
@@ -6,6 +11,5 @@ public interface IEventListener {
     public int getId() {}
     public String getType() {}
     public boolean canHandle(Integer id, String type) {}
-    public void handleEvent(HashMap<String, String> args) {
-    }
+    public void handleEvent(HashMap<String, String> args) {}
 }
