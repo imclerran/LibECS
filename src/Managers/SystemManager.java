@@ -6,6 +6,7 @@ public class SystemManager {
     private HashMap<String, List<ISystem>> _systemPools;
 
     private SystemManager() {
+        _evm = EventManager.getInstance();
         _systems = new HashMap<Integer, List<ISystem>>();
         _systemPools = new HashMap<String, List<ISystem>>();
     }
