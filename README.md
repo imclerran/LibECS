@@ -26,10 +26,18 @@ These components can then be extended to store additional information about the 
 
 Systems handle the logic for updating the Components belonging to an entity. As such, the `ISystem` interface, like component, stores the `id` of the related entity, as well as the `type` of system. Implementing the `ISystem` interface also requires overriding the `update()` method, which performs the logic for updating the entities components.
 
-For example a `InputSystem` might take data from the `InputComponent` and use that to update the `VelocityComponent`, after which the `MovementSystem` would use data from the `VelocityComponent` to update the `PositionComponent`.
+For example a `InputSystem` might take data from the keyboard and store it in an `InputComponent`, afterwhich an `InputInterpreterSystem` would convert input data into into Dy/Dx info in the `VelocityComponent`, as well as updating the `FireControlComponent` with information on whether the player wishes to shoot. Next the `MovementSystem` could use data from the `VelocityComponent` to update the `PositionComponent`, while the `FireControlSystem` handles shooting.
 
 ### Events and EventListeners
 
 Events and EventListeners are used to allow interaction between different systems. These implement their respective IEvent and IEventListener interfaces, and again each specify an id and type. The `Event` specifies the `type` of event, and the `id` of the triggering entity. The `EventListener` specifies the `type` of event to listen for, and the entity `id` the listener is interested in.
 
 Additionally, `IEvent` contains an `args` field, which is a HashMap of type `<String, String>`, to allow passing data to the listener. The `IEventListener` contains a `eventHanlder` field, which contains a callback requiring a `HashMap<String,String>` to process the the arguments provided by the event. The listener must also implement `canHandle()` which returns true if passed an id and event type matching the listener's id and type, and `handleEvent`, which calls the `eventHanlder` callback.
+
+## Better Modularity
+
+As you may have noticed while reading the use examples above, by composing `Entities` of different `Components` and `Systems`, we can allow a high degree of modularity between entities, where only the required components and systems compose a given entity.
+
+For example while the `Systems` and `Components` described in the __Systems__ example were applied to a player controlled `Entity`, most of those systems and components could be recycled for a scripted enemy entity, but instead of `InputInterpreterSystem` the enemy might have a `ScriptInterpreterSystem`.
+
+Thus we can avoid complex and rigid inheritance heirarchies, and instead use composition to define our game entities. This allows for much better flexibility, and swapping behaviors out becomes a breeze. Just replace the appropriate components and systems as needed.
