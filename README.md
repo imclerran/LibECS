@@ -36,8 +36,8 @@ Additionally, `IEvent` contains an `args` field, which is a HashMap of type `<St
 
 ## Better Modularity
 
-As you may have noticed while reading the use examples above, by composing `Entities` of different `Components` and `Systems`, we can allow a high degree of modularity between entities, where only the required components and systems compose a given entity.
+As you may have noticed while reading the examples above, by composing `Entities` of different `Components` and `Systems`, we can allow a high degree of modularity between entities, where only the required components and systems compose a given entity.
 
-For example while the `Systems` and `Components` described in the __Systems__ example were applied to a player controlled `Entity`, most of those systems and components could be recycled for a scripted enemy entity, but instead of `InputInterpreterSystem` the enemy might have a `ScriptInterpreterSystem`.
+For example while the `Systems` and `Components` described in the __Systems__ example were applied to a player controlled `Entity`, most of those systems and components could be recycled for a scripted enemy entity, but instead of an `InputInterpreterSystem` the enemy might have a `ScriptInterpreterSystem`.
 
 Thus we can avoid complex and rigid inheritance heirarchies, and instead use composition to define our game entities. This allows for much better flexibility, and swapping behaviors out becomes a breeze. Just replace the appropriate components and systems as needed.
