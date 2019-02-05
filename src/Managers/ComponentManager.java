@@ -4,13 +4,18 @@ public class ComponentManager {
     private HashMap<Integer, List<IComponent>> _components;
     private HashMap<String, List<IComponent>> _componentPools;
 
+    /**
+     * A private constructor for the singleton pattern.
+     */
     private ComponentManager() {
-        _components = new HashMap<Integer, List<IComponent>>();
-        _componentPools = new HashMap<String, List<IComponent>>();
+        _components = new HashMap<Integer, ArrayList<IComponent>>();
+        _componentPools = new HashMap<String, ArrayList<IComponent>>();
     }
 
     /**
-     * singleton getter
+     * Singleton getter: Creates the ComponentManager if none exists, then returns it.
+     *
+     * @return  the singleton ComponentManager.
      */
     public static ComponentManager getInstance() {
         if(null == _cm) {
@@ -19,13 +24,25 @@ public class ComponentManager {
         return _cm;
     }
 
-    public List<IComponent> getComponents(int id) {
+    /**
+     * Get a list of all components belonging to a given entity.
+     *
+     * @param id  the entity id whose components should be returned.
+     * @return  a list of the matching components.
+     */
+    public ArrayList<IComponent> getComponents(int id) {
         return _components.get(id);
     }
-    public List<IComponent> getComponents(String type) {
+    public ArrayList<IComponent> getComponents(String type) {
         return _componentPools.get(type);
     }
 
+    /**
+     * Get a list of all components of a specific type.
+     *
+     * @param type  the type of component to be retrieved.
+     * @return  a list of the matching components.
+     */
     public int addComponent(IComponent c) {
         int id = c.getId();
         String type = c.getType();
@@ -48,6 +65,29 @@ public class ComponentManager {
         return c;
     }
 
+    /**
+     * remove all components with a matching entity id.
+     *
+     * @param id  the entity id whose components should be removed.
+     */
+    public boolean removeComponents(int id) {
+        ArrayList<IComponent> flaggedForRemoval = _components.remove(id);
+        if(null == flaggedForRemoval) {
+            return false;
+        }
+        for (IComponent c : flaggedForRemoval) {
+            cp = _componentPools.get(c.getType());
+            cp.remove(c);
+        }
+        return true;
+    }
+
+    /**
+     * Remove a given component.
+     *
+     * @param c  a component to remove.
+     * @return  returns true if the component was successfully removed.
+     */
     public boolean removeComponent(IComponent c) {
         if(_components.containsKey(c.getId())) {
             _components.get(c.getId().remove(c);

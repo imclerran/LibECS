@@ -5,8 +5,20 @@ public class EventManager {
     private HashMap<Integer, ArrayList<IEventListener>> _idEventListeners;
     private HashMap<String, ArrayList<IEventListener>> _typeEventListeners;
 
-    private EventManager() {}
+    /**
+     * A private constructor for the singleton pattern.
+     */
+    private EventManager() {
+        _events = new ArrayList<IEvent>();
+        _idEventListeners = new HashMap<Integer, ArrayList<IEventListener>>();
+        _typeEventListeners = new HashMap<String, ArrayList<IEventListener>>();
+    }
 
+    /**
+     * Singleton getter: Creates the EventManager if none exists, then returns it.
+     *
+     * @return  the singleton EventManager.
+     */
     public EventManager getInstance() {
         if(null == _evm) {
             _evm = new EventManager();
@@ -14,11 +26,23 @@ public class EventManager {
         return _evm;
     }
 
-    public void addAddEvent(IEvent e) {
+    /**
+     * Add an event.
+     *
+     * @param e  an event to add.
+     * @return   the added event.
+     */
+    public IEvent addAddEvent(IEvent e) {
         _events.add(e);
     }
 
-    public void addEventListener(IEventListener el) {
+    /**
+     * Add an event listener.
+     *
+     * @param el  an event listener to add.
+     * @return    the added event listener.
+     */
+    public IEventListener addEventListener(IEventListener el) {
         Integer id = el.getId();
         String type = el.getType();
         if(null != id) {
@@ -41,6 +65,10 @@ public class EventManager {
         }
     }
 
+    /**
+     * dispatch all current events to all listeners that can handle them,
+     * then clears the events list.
+     */
     public void dispatchEvents() {
         for (IEvent e : _events.entrySet()) {
             Integer id = e.getId();
@@ -63,7 +91,58 @@ public class EventManager {
                 }
             }
         }
-        _idEventListeners.clear();
-        _typeEventListeners.clear();
+        _events.clear();
+    }
+
+    /**
+     * Remove all event listeners with a matching id.
+     *
+     * @param id  the entity id to be matched for listener removal.
+     */
+    removeEventListeners(int id) {
+        ArrayList<IEvent> flaggedForRemoval;
+        for (IEvent e : _events) {
+            if(e.getId() == id) {
+                flaggedForRemoval.add(e);
+            }
+        }
+        for (IEvent e : flaggedForRemoval) {
+            _events.remove(e);
+        }
+    }
+
+    /**
+     * Remove all event listeners with a matching type.
+     *
+     * @param type  the event type to be matched for listener removal.
+     */
+    removeEventListeners(String type) {
+        ArrayList<IEvent> flaggedForRemoval;
+        for (IEvent e : _events) {
+            if(e.getType() == type) {
+                flaggedForRemoval.add(e);
+            }
+        }
+        for (IEvent e : flaggedForRemoval) {
+            _events.remove(e);
+        }
+    }
+
+    /**
+     * Remove all event listeners with a matching id and type.
+     *
+     * @param id  the entity id to be matched for listener removal.
+     * @param type  the event type to be matched for listener removal.
+     */
+    removeEventListener(int id, String type) {
+        ArrayList<IEvent> flaggedForRemoval;
+        for (IEvent e : _events) {
+            if(e.getId() == id && e.getType() == type) {
+                flaggedForRemoval.add(e);
+            }
+        }
+        for (IEvent e : flaggedForRemoval) {
+            _events.remove(e);
+        }
     }
 }
