@@ -1,4 +1,4 @@
-package LibECS.Interfaces;
+package com.ifmdev.libecs.interfaces;
 
 /**
  * The interface to be implemented by all concrete Components.
@@ -6,9 +6,6 @@ package LibECS.Interfaces;
  * Components are used to store information about entities.
  */
 public interface IComponent {
-    int _entityId = 0;
-    String _componentType = null;
-
     public int getId();
     public String getType();
 }
