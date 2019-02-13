@@ -1,4 +1,4 @@
-package LibECS.Interfaces;
+package com.ifmdev.libecs.interfaces;
 
 import java.util.HashMap;
 
@@ -8,11 +8,6 @@ import java.util.HashMap;
  * Events are used to trigger a callback.
  */
 public interface IEvent {
-
-    int _entityId = 0;
-    String _eventType = null;
-    HashMap<String, String> _args = null;
-
     int getId();
     String getType();
     HashMap<String, String> getArgs();

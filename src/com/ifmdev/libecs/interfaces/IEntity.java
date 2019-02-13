@@ -1,4 +1,4 @@
-package LibECS.Interfaces;
+package com.ifmdev.libecs.interfaces;
 
 /**
  * The interface to be implemented by all concrete Entities.
@@ -6,9 +6,6 @@ package LibECS.Interfaces;
  * Entities represent any in game object. They are composed of Components and Systems.
  */
 public interface IEntity {
-    int _id = 0;
-    String _type = null;
-
     public int getId();
     public String getType();
 }
