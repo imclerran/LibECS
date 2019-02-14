@@ -5,14 +5,10 @@ import java.util.HashMap;
 /**
  * The interface to be implemented by all concrete EventListeners.
  * <p>
- * EventListeners contain a callback to be processed when triggered by an event.
+ * EventListeners contain a callback to be processed when triggered by an event.</p>
  */
 public interface IEventListener {
-    int _listenToId = 0;
-    String _eventType = null;
-    void _eventHanlder(HashMap<String, String> args);
-
-    int getId();
+    Integer getId();
     String getType();
     boolean canHandle(Integer id, String type);
     void handleEvent(HashMap<String, String> args);

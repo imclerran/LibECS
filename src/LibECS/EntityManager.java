@@ -2,23 +2,23 @@ package LibECS;
 
 import LibECS.interfaces.IEntity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class EntityManager {
     private static EntityManager em;
 
     private int nextId;
-    private HashMap<Integer, IEntity> entities;
-    private HashMap<String, ArrayList<IEntity>> entityPools;
+    private HashMap<Integer, IEntity> _entities;
+    private HashMap<String, HashMap<Integer, IEntity>> _entityTypePools;
 
     /**
      * A private constructor for the singleton pattern.
      */
     private EntityManager() {
         nextId = 0;
-        entities = new HashMap<Integer, IEntity>();
-        entityPools = new HashMap<String, ArrayList<IEntity>>();
+        _entities = new HashMap<Integer, IEntity>();
+        _entityTypePools = new HashMap<String, HashMap<Integer, IEntity>>();
     }
 
     /**
@@ -39,8 +39,8 @@ public class EntityManager {
      * @param type  the type of entities to be retrieved.
      * @return  a list of all entities of the specified type.
      */
-    public ArrayList<IEntity> getEntities(String type) {
-        return entityPools.get(type);
+    public HashMap<Integer, IEntity> getEntities(String type) {
+        return _entityTypePools.get(type);
     }
 
     /**
@@ -48,7 +48,7 @@ public class EntityManager {
      *
      * @return  an available entity id.
      */
-    public int aquireEntityId() {
+    public int acquireEntityId() {
         return nextId++;
     }
 
@@ -59,14 +59,15 @@ public class EntityManager {
      * @return  the added entity.
      */
     public IEntity addEntity(IEntity e) {
-        if(entityPools.containsKey(e.getType())) {
-            entities.put(e.getId(), e);
-            entityPools.get(e.getType()).add(e);
+        _entities.put(e.getId(), e);
+        String type = e.getType();
+        int id = e.getId();
+        if(_entityTypePools.containsKey(type)) {
+            _entityTypePools.get(type).put(id, e);
         }
         else {
-            entities.put(e.getId(), e);
-            entityPools.put(e.getType(), new ArrayList<IEntity>());
-            entityPools.get(e.getType()).add(e);
+            _entityTypePools.put(type, new HashMap<Integer, IEntity>());
+            _entityTypePools.get(e.getType()).put(id, e);
         }
         return e;
     }
@@ -78,10 +79,10 @@ public class EntityManager {
      * @return  true if the entities were removed.
      */
     public boolean removeEntities(String type) {
-        ArrayList<IEntity> flaggedForRemoval = entityPools.remove(type);
+        HashMap<Integer, IEntity> flaggedForRemoval = _entityTypePools.remove(type);
         if(null != flaggedForRemoval) {
-            for (IEntity e : flaggedForRemoval) {
-                entities.remove(e.getId());
+            for (Map.Entry<Integer, IEntity> e : flaggedForRemoval.entrySet()) {
+                _entities.remove(e.getValue().getId());
             }
         }
         return flaggedForRemoval.size() > 0;
@@ -94,9 +95,9 @@ public class EntityManager {
      * @return  true if the entity was removed.
      */
     public boolean removeEntity(int id) {
-        if(entities.containsKey(id)) {
-            IEntity e = entities.remove(id);
-            entityPools.get(e.getType()).remove(e);
+        if(_entities.containsKey(id)) {
+            IEntity e = _entities.remove(id);
+            _entityTypePools.get(e.getType()).remove(id);
             return true;
         }
         return false;
@@ -109,9 +110,9 @@ public class EntityManager {
      * @return  true if the the entity was removed.
      */
     public boolean removeEntity(IEntity e) {
-        if(entities.containsKey(e.getId())) {
-            entityPools.get(e.getType()).remove(e);
-            entities.remove(e.getId());
+        if(_entities.containsKey(e.getId())) {
+            _entityTypePools.get(e.getType()).remove(e);
+            _entities.remove(e.getId());
             return true;
         }
         return false;
