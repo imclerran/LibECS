@@ -1,4 +1,4 @@
-package LibECS.Interfaces;
+package LibECS.interfaces;
 
 /**
  * The interface to be implemented by all concrete Components.

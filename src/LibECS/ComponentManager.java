@@ -1,6 +1,6 @@
 package LibECS;
 
-import LibECS.Interfaces.IComponent;
+import LibECS.interfaces.IComponent;
 
 import java.util.ArrayList;
 import java.util.HashMap;

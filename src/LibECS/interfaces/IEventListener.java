@@ -1,4 +1,4 @@
-package LibECS.Interfaces;
+package LibECS.interfaces;
 
 import java.util.HashMap;
 

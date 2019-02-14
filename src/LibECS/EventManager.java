@@ -1,5 +1,7 @@
-import LibECS.Interfaces.IEvent;
-import LibECS.Interfaces.IEventListener;
+package LibECS;
+
+import LibECS.interfaces.IEvent;
+import LibECS.interfaces.IEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;

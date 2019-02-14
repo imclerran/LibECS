@@ -1,6 +1,7 @@
 package LibECS;
 
-import LibECS.Interfaces.ISystem;
+import LibECS.interfaces.ISystem;
+
 
 import java.util.ArrayList;
 

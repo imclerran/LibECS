@@ -1,4 +1,6 @@
-import LibECS.Interfaces.IEntity;
+package LibECS;
+
+import LibECS.interfaces.IEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
