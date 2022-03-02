@@ -8,7 +8,7 @@ While there are actually quite a number of changes to the actual implementation,
 
 libECS is an Entity-Component-System pattern implementation to manage game objects and their properties and behaviors. The ECS pattern prevents inflexible and complex inheritance heirachies, which can sometimes lead to liskov substitution violations, where subclasses do not implement all of their parent classes behavior.
 
-A total of 4 Manager classes are provided by this library: 3 of these manage, the nominal `Entity`, `Component`, and `System` objects. The 4th manager class is the the `EventManager`, which facilitates communication between `Systems`.
+A total of 4 Manager classes are provided by this library: 3 of these manage the nominal `Entity`, `Component`, and `System` objects. The 4th manager class is the the `EventManager`, which facilitates communication between `Systems`.
 
 An optional ECSEngine class is also provided which links the 4 managers into one provider class.
 
